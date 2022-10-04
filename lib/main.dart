@@ -39,6 +39,8 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print('main');
+    print(Provider.of<UserProvider>(context).user.access_token.isNotEmpty);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),

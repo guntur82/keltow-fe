@@ -127,8 +127,8 @@ class AuthService {
             'auth': token
           },
         );
-        // print(userRes.body);
-        // print('masukin data ke userProvider');
+        print(userRes.body);
+        print('masukin data ke userProvider');
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         // print('set di body');
         userProvider.setUser(userRes.body);
@@ -140,6 +140,7 @@ class AuthService {
   }
 
   Future<List<Product>> fetchAllProducts(BuildContext context) async {
+    // void fetchAllProducts(BuildContext context) async {
     List<Product> productList = [];
     try {
       http.Response res = await http.get(Uri.parse('$uri/api/item'), headers: {
@@ -157,6 +158,7 @@ class AuthService {
                 ),
               ),
             );
+            // print(jsonDecode(jsonEncode(productList)));
           }
         },
       );

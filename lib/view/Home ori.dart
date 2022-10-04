@@ -9,7 +9,6 @@ import 'package:flutter_project/view/detailProduk.dart';
 import 'package:flutter_project/providers/user_provider.dart';
 // import 'package:flutter_project/view/single_product.dart'; //buat list hp yang kebeli
 import 'package:provider/provider.dart';
-import 'dart:convert';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -85,7 +84,6 @@ class _HomePageState extends State<HomePage>
       vsync: this,
       length: 0,
     );
-    // authService.fetchAllProducts(context);
     fetchAllProduct();
   }
 
@@ -98,12 +96,8 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     products == null ? print('ga ada') : print('ada');
+    products!.map((e) => print(e.name));
     print(products);
-    products != null
-        ? print(jsonDecode(jsonEncode(products)).length)
-        : print('otak mu kosong');
-    print('sample 1');
-
     return products == null
         ? const Loader()
         : Scaffold(
@@ -175,43 +169,44 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   SizedBox(
-                    // height: 300,
-                    height: MediaQuery.of(context).size.height,
+                    height: 300,
                     child: GridView.builder(
                       itemCount: products!.length,
                       primary: false,
                       padding: const EdgeInsets.all(10),
+                      // crossAxisCount: 2,
+                      // childAspectRatio: 1.4,
+                      // crossAxisSpacing: 15,
+                      // mainAxisSpacing: 15,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
-                      ),
+                              crossAxisCount: 2),
                       itemBuilder: (context, index) {
                         final productData = products![index];
                         var picture = uriGambar + productData.gambar;
                         return Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  constraints: const BoxConstraints(
-                                    minHeight: 30,
-                                  ),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.3,
+                                  // child: Container(
                                   child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => detail()));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
+                                    // color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    detail()));
+                                      },
                                       child: Container(
-                                        height: 130,
-                                        width: 95,
+                                        // height: 200,
+                                        // width: 165,
+                                        width: double.infinity,
+                                        height: double.infinity,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           // border: Border.all(color: Colors.black,width: 2),
@@ -234,63 +229,65 @@ class _HomePageState extends State<HomePage>
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Column(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            textAlign: TextAlign.center,
-                                            productData.name,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 9,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        SizedBox(width: 8),
-                                        Row(
+                                        child: Column(
                                           children: [
-                                            Icon(
-                                              Icons.star,
-                                              color: Colors.yellow,
-                                              size: 14,
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 6, top: 210),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    productData.name,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  SizedBox(width: 8),
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: Colors.yellow,
+                                                    size: 14,
+                                                  ),
+                                                  SizedBox(width: 2),
+                                                  Text(
+                                                    "5 (100 rating)",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                            // SizedBox(width: 2),
-                                            Text(
-                                              "5 (100 rating)",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 9,
-                                                  fontWeight: FontWeight.bold),
+                                            Container(
+                                              padding: EdgeInsets.only(left: 8),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    convertToIdr(
+                                                            productData.harga,
+                                                            2)
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                    Text(
-                                      convertToIdr(productData.harga, 2)
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      // width: 8,
-                                      width: 15,
-                                      height: 15,
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ],
                             ),
