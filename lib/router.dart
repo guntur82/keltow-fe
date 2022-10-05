@@ -1,6 +1,7 @@
 import 'package:flutter_project/LoginRegister/HomePage_log_res.dart';
 import 'package:flutter_project/LoginRegister/Login_page.dart';
 import 'package:flutter_project/LoginRegister/Register_page.dart';
+import 'package:flutter_project/features/search/search_screen.dart';
 import 'package:flutter_project/view/Home.dart';
 import 'package:flutter_project/view/NavigasiBar.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const BottomNavigationScreen(),
+      );
+    case SearchScreen.routeName:
+      var searchQuery = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => SearchScreen(
+          searchQuery: searchQuery,
+        ),
       );
     default:
       return MaterialPageRoute(

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/LoginRegister/Login_page.dart';
 import 'package:flutter_project/constants/loader.dart';
+import 'package:flutter_project/features/search/search_screen.dart';
 import 'package:flutter_project/features/services/auth_service.dart';
 import 'package:flutter_project/constants/global_variables.dart';
 import 'package:flutter_project/models/product.dart';
@@ -89,6 +90,10 @@ class _HomePageState extends State<HomePage>
     fetchAllProduct();
   }
 
+  void navigateToSeachScreen(String query) {
+    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
   fetchAllProduct() async {
     products = await authService.fetchAllProducts(context);
     setState(() {});
@@ -101,7 +106,7 @@ class _HomePageState extends State<HomePage>
     print(products);
     products != null
         ? print(jsonDecode(jsonEncode(products)).length)
-        : print('otak mu kosong');
+        : print('kosong');
     print('sample 1');
 
     return products == null
@@ -114,7 +119,8 @@ class _HomePageState extends State<HomePage>
                   Expanded(
                     flex: 5,
                     child: Container(
-                      child: TextField(
+                      child: TextFormField(
+                        onFieldSubmitted: navigateToSeachScreen,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
