@@ -1,15 +1,64 @@
 import 'dart:math';
 import 'dart:ui';
-
+import 'dart:convert';
 import "package:flutter/material.dart";
+import 'package:flutter_project/constants/loader.dart';
+import 'package:flutter_project/features/search/search_screen.dart';
+import 'package:flutter_project/features/services/auth_service.dart';
+import 'package:flutter_project/features/services/product_service.dart';
+import 'package:flutter_project/models/kodewarna.dart';
+import 'package:flutter_project/models/product.dart';
+import 'package:flutter_project/view/NavigasiBar.dart';
 import 'package:flutter_project/view/Payment.dart';
 import 'package:flutter_project/view/whislist.dart';
+import 'package:flutter_project/constants/global_variables.dart';
 
-class detail extends StatelessWidget {
-  const detail({Key? key}) : super(key: key);
+class detail extends StatefulWidget {
+  static const String routeName = '/product-details';
+  final Product product;
+  const detail({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
+
+  @override
+  State<detail> createState() => _detailState();
+}
+
+class _detailState extends State<detail> {
+  List<KodeWarna>? kodeColor;
+  final AuthService authService = AuthService();
+  final ProductService productService = ProductService();
+
+  void navigateToSeachScreen(String query) {
+    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
+  void addToCart() {
+    productService.addToCart(
+      context: context,
+      product: widget.product,
+      jumlah: 1,
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // fetchAllKodeColor();
+  }
+
+  //// belum kapake
+  // fetchAllKodeColor() async {
+  //   kodeColor = await authService.fetchAllKodeColor(context);
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
+    // var data = jsonDecode(jsonEncode(kodeColor)); // blm terpake karna blm ada relasi
+    // print(data);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -19,7 +68,8 @@ class detail extends StatelessWidget {
             Expanded(
               flex: 5,
               child: Container(
-                child: TextField(
+                child: TextFormField(
+                  onFieldSubmitted: navigateToSeachScreen,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -73,9 +123,10 @@ class detail extends StatelessWidget {
 
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage(
-                          "assets/samsung.jfif",
-                        ),
+                        // image: AssetImage(
+                        //   "assets/samsung.jfif",
+                        // ),
+                        image: NetworkImage(uriGambar + widget.product.gambar),
                         scale: 0.8,
                         alignment: Alignment.center
                         //fit: BoxFit.cover
@@ -111,7 +162,8 @@ class detail extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                  "Samsung Z-Flip 8/128Gb 183g, 7.2mm thickness Android 10, up to Android 12,One UI 4 256GB storage, no card slot",
+                                  // "Samsung Z-Flip 8/128Gb 183g, 7.2mm thickness Android 10, up to Android 12,One UI 4 256GB storage, no card slot",
+                                  widget.product.deskripsi,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 15,
@@ -132,7 +184,9 @@ class detail extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                  "Rp.12.000.000",
+                                  // "Rp.12.000.000",
+                                  convertToIdr(widget.product.harga, 2)
+                                      .toString(),
                                   style: TextStyle(
                                       color: Colors.orange,
                                       fontSize: 20,
@@ -203,6 +257,29 @@ class detail extends StatelessWidget {
                                   SizedBox(height: 8),
                                   Row(
                                     children: [
+                                      /// start (blm jalan blm ada relasinya ternayta hehe :3)
+                                      // kodeColor == null
+                                      //     ? const Loader()
+                                      //     : ListView.builder(
+                                      //         itemCount: kodeColor!.length,
+                                      //         itemBuilder: (context, index) {
+                                      //           final color = kodeColor![index];
+                                      //           print(color);
+                                      //           return Text('test');
+                                      //           // Container(
+                                      //           //   height: 20,
+                                      //           //   width: 30,
+                                      //           //   decoration: BoxDecoration(
+                                      //           //     color: Colors.red,
+                                      //           //     borderRadius:
+                                      //           //         BorderRadius.circular(
+                                      //           //             10),
+                                      //           //   ),
+                                      //           // );
+                                      //         },
+                                      //         scrollDirection: Axis.horizontal,
+                                      //       ),
+                                      /// end
                                       Container(
                                         height: 20,
                                         width: 30,
@@ -330,7 +407,9 @@ class detail extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                "Rp.12.000.000",
+                                // "Rp.12.000.000",
+                                convertToIdr(widget.product.harga, 2)
+                                    .toString(),
                                 style: TextStyle(
                                   color: Colors.orange,
                                   fontSize: 20,
@@ -370,10 +449,20 @@ class detail extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0))),
                           onPressed: () {
-                            Navigator.push(
+                            setState(() {
+                              addToCart();
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Whislist()));
+                                  builder: (context) =>
+                                      BottomNavigationScreen(),
+                                ),
+                              );
+                            });
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => Whislist()));
                           },
                           child: Text("ADD TO CARD")),
                       SizedBox(

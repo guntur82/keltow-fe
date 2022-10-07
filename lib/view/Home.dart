@@ -5,11 +5,15 @@ import 'package:flutter_project/constants/loader.dart';
 import 'package:flutter_project/features/search/search_screen.dart';
 import 'package:flutter_project/features/services/auth_service.dart';
 import 'package:flutter_project/constants/global_variables.dart';
+import 'package:flutter_project/features/services/product_service.dart';
+import 'package:flutter_project/models/cart.dart';
 import 'package:flutter_project/models/product.dart';
+import 'package:flutter_project/view/Cart.dart';
 import 'package:flutter_project/view/detailProduk.dart';
 import 'package:flutter_project/providers/user_provider.dart';
 // import 'package:flutter_project/view/single_product.dart'; //buat list hp yang kebeli
 import 'package:provider/provider.dart';
+import 'package:badges/badges.dart';
 import 'dart:convert';
 
 final List<String> imgList = [
@@ -75,7 +79,9 @@ class _HomePageState extends State<HomePage>
   // temporary list
 
   List<Product>? products;
+  List<Cart>? cart;
   final AuthService authService = AuthService();
+  final ProductService productService = ProductService();
   late TabController _tabController;
 
   @override
@@ -87,11 +93,17 @@ class _HomePageState extends State<HomePage>
       length: 0,
     );
     // authService.fetchAllProducts(context);
+    fetchCartList();
     fetchAllProduct();
   }
 
   void navigateToSeachScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
+  fetchCartList() async {
+    cart = await productService.fetchCartList(context);
+    setState(() {});
   }
 
   fetchAllProduct() async {
@@ -102,12 +114,30 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
-    products == null ? print('ga ada') : print('ada');
-    print(products);
-    products != null
-        ? print(jsonDecode(jsonEncode(products)).length)
-        : print('kosong');
-    print('sample 1');
+    // cart == null ? print('ga ada') : print('ada');
+    // print(cart);
+    // cart != null ? print(jsonDecode(jsonEncode(cart))) : print('kosong');
+    // print('sample 1');
+    int countCart = 0;
+    if (products != null) {
+      for (int i = 0; i < jsonDecode(jsonEncode(products)).length; i++) {
+        var dataProduct = jsonDecode(jsonEncode(products));
+        for (int j = 0; j < jsonDecode(jsonEncode(cart)).length; j++) {
+          var dataCart = jsonDecode(jsonEncode(cart));
+          if (Product.fromJson(dataProduct[i]).id ==
+              Cart.fromJson(dataCart[j]).itemId) {
+            countCart += Cart.fromJson(dataCart[j]).jumlah;
+          }
+        }
+      }
+    }
+
+    // products == null ? print('ga ada') : print('ada');
+    // print(products);
+    // products != null
+    //     ? print(jsonDecode(jsonEncode(products)).length)
+    //     : print('kosong');
+    // print('sample 1');
 
     return products == null
         ? const Loader()
@@ -150,15 +180,51 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: Container(
-                      //margin: EdgeInsets.only(top: 60),
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.shopping_cart_rounded),
-                          color: Colors.black54),
-                    ),
-                  )
+                      flex: 1,
+                      child: Container(
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CartScreen()));
+                          },
+                          color: Colors.black54,
+                          icon: new Stack(
+                            children: <Widget>[
+                              new Icon(Icons.shopping_cart_rounded),
+                              if (countCart != 0)
+                                new Positioned(
+                                  right: 0,
+                                  child: new Container(
+                                    padding: EdgeInsets.all(1),
+                                    decoration: new BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    constraints: BoxConstraints(
+                                      minWidth: 12,
+                                      minHeight: 12,
+                                    ),
+                                    child: new Text(
+                                      countCart.toString(),
+                                      style: new TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 8,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      )
+                      // child: IconButton(
+                      //     onPressed: () {},
+                      //     icon: const Icon(Icons.shopping_cart_rounded),
+                      //     color: Colors.black54),
+                      )
                 ],
               ),
             ),
@@ -208,10 +274,13 @@ class _HomePageState extends State<HomePage>
                                   ),
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => detail()));
+                                      Navigator.pushNamed(
+                                          context, detail.routeName,
+                                          arguments: productData);
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) => detail()));
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(5.0),

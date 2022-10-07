@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/models/kodewarna.dart';
 import 'package:flutter_project/models/product.dart';
 import 'package:flutter_project/models/user.dart';
 import 'package:flutter_project/constants/error_handpling.dart';
@@ -168,4 +169,44 @@ class AuthService {
     }
     return productList;
   }
+
+  //// belum kepake
+  // Future<List<KodeWarna>> fetchAllKodeColor(BuildContext context) async {
+  //   List<KodeWarna> kodeWarnaList = [];
+  //   try {
+  //     http.Response res =
+  //         await http.get(Uri.parse('$uri/api/kodewarna'), headers: {
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     });
+  //     print('body');
+  //     print(res.body);
+  //     httpErrorHandle(
+  //       response: res,
+  //       context: context,
+  //       onSuccess: () {
+  //         for (int i = 0; i < jsonDecode(res.body).length; i++) {
+  //           kodeWarnaList.add(
+  //             KodeWarna.fromJson(
+  //               jsonEncode(
+  //                 jsonDecode(res.body)[i],
+  //               ),
+  //             ),
+  //           );
+  //           print('loop');
+  //           // print(jsonEncode(
+  //           //   jsonDecode(res.body)[i],
+  //           // ));
+  //           // print(jsonDecode(jsonEncode(kodeWarnaList)));
+  //         }
+  //         print((jsonEncode(kodeWarnaList)).split("|"));
+  //         final data = jsonDecode(jsonEncode(kodeWarnaList));
+  //         print(KodeWarna.fromJson(data));
+  //       },
+  //     );
+  //   } catch (e) {
+  //     // showSnackBar(context, e.toString());
+  //     Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+  //   }
+  //   return kodeWarnaList;
+  // }
 }

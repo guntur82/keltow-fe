@@ -38,7 +38,7 @@ class Product {
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      id: map['id'],
+      id: map['id'] ?? '',
       name: map['name'] ?? '',
       harga: map['harga']?.toDouble() ?? 0.0,
       gambar: map['gambar'] ?? '',

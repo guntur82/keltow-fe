@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project/constants/global_variables.dart';
 import 'package:flutter_project/constants/loader.dart';
 import 'package:flutter_project/features/search/search_service.dart';
+import 'package:flutter_project/features/services/auth_service.dart';
+import 'package:flutter_project/features/services/product_service.dart';
+import 'package:flutter_project/models/cart.dart';
 import 'package:flutter_project/models/product.dart';
+import 'package:flutter_project/view/Cart.dart';
 import 'package:flutter_project/view/detailProduk.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -19,11 +25,16 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   List<Product>? products;
+  final AuthService authService = AuthService();
   final SearchServices searchServices = SearchServices();
+  List<Cart>? cart;
+  final ProductService productService = ProductService();
 
   @override
   void initState() {
     super.initState();
+    fetchCartList();
+    fetchAllProduct();
     fetchSearchProduct();
   }
 
@@ -37,8 +48,37 @@ class _SearchScreenState extends State<SearchScreen> {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
+  fetchCartList() async {
+    cart = await productService.fetchCartList(context);
+    setState(() {});
+  }
+
+  fetchAllProduct() async {
+    products = await authService.fetchAllProducts(context);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    int countCart = 0;
+    if (products != null) {
+      for (int i = 0; i < jsonDecode(jsonEncode(products)).length; i++) {
+        var dataProduct = jsonDecode(jsonEncode(products));
+        for (int j = 0; j < jsonDecode(jsonEncode(cart)).length; j++) {
+          var dataCart = jsonDecode(jsonEncode(cart));
+          if (Product.fromJson(dataProduct[i]).id ==
+              Cart.fromJson(dataCart[j]).itemId) {
+            countCart++;
+            // print(Product.fromJson(dataProduct[i])
+            //     .name); //dipake buat di cartnya aja
+            // print(Cart.fromJson(dataCart[j])
+            //     .itemId); //dipake buat di cartnyta aja
+            // print(countCart); //bikin di notif cart biar ada number
+          }
+        }
+      }
+    }
+    print(countCart);
     return products == null
         ? const Loader()
         : Scaffold(
@@ -80,18 +120,50 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: Container(
-                      //margin: EdgeInsets.only(top: 60),
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.shopping_cart_rounded),
-                          color: Colors.black54),
-                    ),
-                  )
+                      flex: 1,
+                      child: Container(
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CartScreen()));
+                          },
+                          color: Colors.black54,
+                          icon: new Stack(
+                            children: <Widget>[
+                              new Icon(Icons.shopping_cart_rounded),
+                              if (countCart != 0)
+                                new Positioned(
+                                  right: 0,
+                                  child: new Container(
+                                    padding: EdgeInsets.all(1),
+                                    decoration: new BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    constraints: BoxConstraints(
+                                      minWidth: 12,
+                                      minHeight: 12,
+                                    ),
+                                    child: new Text(
+                                      countCart.toString(),
+                                      style: new TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 8,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      ))
                 ],
               ),
             ),
+            backgroundColor: Colors.lightBlueAccent,
             body: GridView.builder(
               itemCount: products!.length,
               primary: false,
@@ -116,10 +188,12 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => detail()));
+                              Navigator.pushNamed(context, detail.routeName,
+                                  arguments: productData);
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => detail()));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
