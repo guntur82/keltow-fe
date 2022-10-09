@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project/constants/global_variables.dart';
+import 'package:flutter_project/constants/loader.dart';
 import 'package:flutter_project/features/services/auth_service.dart';
 import 'package:flutter_project/features/services/product_service.dart';
 import 'package:flutter_project/models/cart.dart';
@@ -57,25 +58,27 @@ class _CartSubtotalState extends State<CartSubtotal> {
         }
       }
     }
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          const Text(
-            'Subtotal ',
-            style: TextStyle(
-              fontSize: 20,
+    return products == null && cart == null
+        ? const Loader()
+        : Container(
+            margin: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                const Text(
+                  'Subtotal ',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  convertToIdr(sum, 2).toString(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-          ),
-          Text(
-            convertToIdr(sum, 2).toString(),
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }

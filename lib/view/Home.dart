@@ -37,47 +37,46 @@ final List<Widget> imageSliders = imgList
           child: Container(
             margin: EdgeInsets.all(5.0),
             child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Image.network(item, fit: BoxFit.cover, width: 9000.0),
-                    Positioned(
-                      bottom: 0.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(200, 0, 0, 0),
-                              Color.fromARGB(0, 0, 0, 0)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              child: Stack(
+                children: <Widget>[
+                  Image.network(item, fit: BoxFit.cover, width: 9000.0),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(200, 0, 0, 0),
+                            Color.fromARGB(0, 0, 0, 0)
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
                         ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        child: Text(
-                          'No. ${imgList.indexOf(item)} image',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: Text(
+                        'No. ${imgList.indexOf(item)} image',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ],
-                )),
+                  ),
+                ],
+              ),
+            ),
           ),
         ))
     .toList();
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  // temporary list
-
   List<Product>? products;
   List<Cart>? cart;
   final AuthService authService = AuthService();
@@ -86,13 +85,11 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(
       vsync: this,
       length: 0,
     );
-    // authService.fetchAllProducts(context);
     fetchCartList();
     fetchAllProduct();
   }
@@ -114,10 +111,6 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
-    // cart == null ? print('ga ada') : print('ada');
-    // print(cart);
-    // cart != null ? print(jsonDecode(jsonEncode(cart))) : print('kosong');
-    // print('sample 1');
     int countCart = 0;
     if (products != null) {
       for (int i = 0; i < jsonDecode(jsonEncode(products)).length; i++) {
@@ -131,13 +124,6 @@ class _HomePageState extends State<HomePage>
         }
       }
     }
-
-    // products == null ? print('ga ada') : print('ada');
-    // print(products);
-    // products != null
-    //     ? print(jsonDecode(jsonEncode(products)).length)
-    //     : print('kosong');
-    // print('sample 1');
 
     return products == null
         ? const Loader()

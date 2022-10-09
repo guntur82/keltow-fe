@@ -3,6 +3,7 @@ import 'package:flutter_project/LoginRegister/Login_page.dart';
 import 'package:flutter_project/LoginRegister/Register_page.dart';
 import 'package:flutter_project/features/search/search_screen.dart';
 import 'package:flutter_project/models/product.dart';
+import 'package:flutter_project/view/Address.dart';
 import 'package:flutter_project/view/Home.dart';
 import 'package:flutter_project/view/NavigasiBar.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (_) => detail(
           product: product,
         ),
+      );
+    case AddressScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const AddressScreen(),
       );
     default:
       return MaterialPageRoute(

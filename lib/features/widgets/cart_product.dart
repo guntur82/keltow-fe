@@ -27,6 +27,7 @@ class _CartProductState extends State<CartProduct> {
   final AuthService authService = AuthService();
   final ProductService productService = ProductService();
   final CartService cartService = CartService();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -64,6 +65,12 @@ class _CartProductState extends State<CartProduct> {
       context: context,
       product: product,
       jumlah: 1,
+    );
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CartScreen(),
+      ),
     );
   }
 

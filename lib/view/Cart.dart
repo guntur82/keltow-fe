@@ -10,6 +10,7 @@ import 'package:flutter_project/features/widgets/cart_subtotal.dart';
 import 'package:flutter_project/features/widgets/custom_button.dart';
 import 'package:flutter_project/models/cart.dart';
 import 'package:flutter_project/models/product.dart';
+import 'package:flutter_project/view/Address.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -32,6 +33,10 @@ class _CartScreenState extends State<CartScreen> {
 
   void navigateToSeachScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
+  void navigateToAddress() {
+    Navigator.pushNamed(context, AddressScreen.routeName);
   }
 
   fetchCartList() async {
@@ -146,37 +151,44 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 5),
+              cart == null
+                  ? const Loader()
+                  : ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: count,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return CartProduct(
+                          index: index,
+                        );
+                      },
+                    ),
+            ],
+          ),
+        ),
+      ),
+      // start
+      bottomNavigationBar: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.2,
         child: Column(
           children: [
+            Divider(
+              thickness: 1,
+            ),
             CartSubtotal(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
-                text: 'Proceed to Buy (${countItem} items)',
-                onTap: () {},
-                // onTap: () => navigateToAddress(sum),
-                color: Colors.yellow[600],
+                text: 'Jumlah Barang (${countItem})',
+                onTap: navigateToAddress,
+                color: Colors.blue[600],
               ),
             ),
-            const SizedBox(height: 15),
-            Container(
-              color: Colors.black12.withOpacity(0.08),
-              height: 1,
-            ),
-            const SizedBox(height: 5),
-            cart == null
-                ? const Loader()
-                : ListView.builder(
-                    itemCount: count,
-                    // itemCount: jsonDecode(jsonEncode(cart)).length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return CartProduct(
-                        index: index,
-                      );
-                    },
-                  ),
           ],
         ),
       ),

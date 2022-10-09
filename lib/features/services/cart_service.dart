@@ -21,7 +21,6 @@ class CartService {
       var now = new DateTime.now();
       var formatter = new DateFormat('yyyy-MM-dd');
       String formattedDate = formatter.format(now);
-      // khusus add to cart
       var status_barang = 0;
       Cart cart = Cart(
         id: 0,
@@ -35,30 +34,14 @@ class CartService {
       );
 
       http.Response res = await http.post(
-        Uri.parse('$uri/api/cart'),
+        Uri.parse('$uri/api/cart/decreaseCart'),
         body: cart.toJson(),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'auth': userProvider.user.access_token,
         },
       );
-
-      // sengaja diilangin soalnya masih bug view
-      // httpErrorHandle(
-      //   response: res,
-      //   context: context,
-      //   onSuccess: () {
-      //     showSnackBar(
-      //       context,
-      //       'Barang berhasil ditambahkan kedalam cart',
-      //     );
-      //     // User user =
-      //     //     userProvider.user.copyWith(cart: jsonDecode(res.body)['cart']);
-      //     // userProvider.setUserFromModel(user);
-      //   },
-      // );
     } catch (e) {
-      // showSnackBar(context, e.toString());
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
     }
   }
