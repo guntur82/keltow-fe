@@ -65,7 +65,7 @@ class _CartSubtotalState extends State<CartSubtotal> {
             child: Row(
               children: [
                 const Text(
-                  'Subtotal ',
+                  'Total ',
                   style: TextStyle(
                     fontSize: 20,
                   ),

@@ -184,7 +184,7 @@ class _CartScreenState extends State<CartScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
-                text: 'Jumlah Barang (${countItem})',
+                text: 'Jumlah barang yang dibeli (${countItem})',
                 onTap: navigateToAddress,
                 color: Colors.blue[600],
               ),

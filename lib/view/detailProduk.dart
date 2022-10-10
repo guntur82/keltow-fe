@@ -223,16 +223,16 @@ class _detailState extends State<detail> {
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(width: 120),
-                              Expanded(
-                                child: Text(
-                                  "SEE REVIEW",
-                                  style: TextStyle(
-                                    color: Colors.purple,
-                                    fontSize: 15,
-                                    //fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ),
+                              // Expanded(
+                              //   child: Text(
+                              //     "SEE REVIEW",
+                              //     style: TextStyle(
+                              //       color: Colors.purple,
+                              //       fontSize: 15,
+                              //       //fontWeight: FontWeight.bold
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
