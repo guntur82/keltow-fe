@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage>
       }
     }
 
-    return products == null && cart == null
+    return products == null || cart == null
         ? const Loader()
         : Scaffold(
             appBar: AppBar(
