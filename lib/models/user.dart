@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 class User {
   final String id;
@@ -10,6 +11,7 @@ class User {
   final String no_hp;
   final String access_token;
   final String gambar;
+  final File? picture;
 
   User({
     required this.id,
@@ -21,6 +23,7 @@ class User {
     required this.no_hp,
     required this.access_token,
     required this.gambar,
+    this.picture,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,6 +37,7 @@ class User {
       'no_hp': no_hp,
       'gambar': gambar,
       'access_token': access_token,
+      // 'picture': picture,
     };
   }
 
@@ -48,6 +52,7 @@ class User {
       no_hp: map['no_hp'] ?? '',
       gambar: map['gambar'] ?? '',
       access_token: map['access_token'] ?? '',
+      // picture: map['picture'],
     );
   }
 

@@ -3,7 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/LoginRegister/HomePage_log_res.dart';
 import 'package:flutter_project/LoginRegister/Login_page.dart';
+import 'package:flutter_project/constants/global_variables.dart';
+import 'package:flutter_project/providers/user_provider.dart';
 import 'package:flutter_project/view/DetailProfil.dart';
+import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -15,6 +18,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
         appBar: AppBar(
           title: Text("Profile"),
@@ -38,9 +42,7 @@ class _ProfileState extends State<Profile> {
                         border: Border.all(width: 2, color: Colors.white),
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                          image: NetworkImage(
-                            "https://cdn.pixabay.com/photo/2014/04/12/14/59/portrait-322470__340.jpg",
-                          ),
+                          image: NetworkImage(uriGambar + user.gambar),
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -56,7 +58,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     Container(
                       child: Text(
-                        "Leo R Panjaitan",
+                        user.name,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,

@@ -47,7 +47,11 @@ dependencies:
   # payment
   page_transition: ^2.0.9
   smooth_star_rating: ^1.1.1
+  file_picker: ^5.2.1
+  #
+  # upload gambar
 
+  #
 dev_dependencies:
   flutter_test:
     sdk: flutter

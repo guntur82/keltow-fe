@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/models/kodewarna.dart';
 import 'package:flutter_project/models/product.dart';
@@ -50,6 +51,60 @@ class AuthService {
           showSnackBar(
             context,
             'User berhasil dibuat',
+          );
+        },
+      );
+    } catch (e) {
+      // showSnackBar(context, e.toString());
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+    }
+  }
+
+  void update({
+    required BuildContext context,
+    required String userId,
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    required String address,
+    // required List<File> images,
+    required File? images,
+  }) async {
+    try {
+      print('sample');
+      print(images?.path);
+      User user = User(
+        id: userId,
+        name: name,
+        email: email,
+        password: password,
+        no_hp: phone,
+        level: 'User',
+        alamat: address,
+        access_token: '',
+        gambar: '',
+        picture: images,
+      );
+
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/user/update'),
+        body: user.toJson(),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      // ini register belum ada notif kalo gagal daftar
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          Provider.of<UserProvider>(context, listen: false).setUser(res.body);
+          await prefs.setString('auth', jsonDecode(res.body)['access_token']);
+          showSnackBar(
+            context,
+            'User berhasil diperbaharui',
           );
         },
       );
