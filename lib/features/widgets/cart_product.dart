@@ -87,9 +87,6 @@ class _CartProductState extends State<CartProduct> {
         }
       }
     }
-    // print('test');
-    // print(data);
-    // print(cartItem);
     return (data == null || cartItem == null)
         ? const Loader()
         : Column(

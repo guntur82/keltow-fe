@@ -35,8 +35,9 @@ class _CartScreenState extends State<CartScreen> {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
-  void navigateToAddress() {
-    Navigator.pushNamed(context, AddressScreen.routeName);
+  void navigateToAddress(int sum) {
+    Navigator.pushNamed(context, AddressScreen.routeName,
+        arguments: sum.toString());
   }
 
   fetchCartList() async {
@@ -185,7 +186,7 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
                 text: 'Jumlah barang yang dibeli (${countItem})',
-                onTap: navigateToAddress,
+                onTap: () => navigateToAddress(sum),
                 color: Colors.blue[600],
               ),
             ),

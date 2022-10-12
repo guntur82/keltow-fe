@@ -8,10 +8,12 @@ import 'package:flutter_project/features/services/auth_service.dart';
 import 'package:flutter_project/features/services/product_service.dart';
 import 'package:flutter_project/models/kodewarna.dart';
 import 'package:flutter_project/models/product.dart';
+import 'package:flutter_project/providers/user_provider.dart';
 import 'package:flutter_project/view/NavigasiBar.dart';
 import 'package:flutter_project/view/Payment.dart';
 import 'package:flutter_project/view/whislist.dart';
 import 'package:flutter_project/constants/global_variables.dart';
+import 'package:provider/provider.dart';
 
 class detail extends StatefulWidget {
   static const String routeName = '/product-details';
@@ -27,26 +29,60 @@ class detail extends StatefulWidget {
 
 class _detailState extends State<detail> {
   List<KodeWarna>? kodeColor;
+  int jumlah = 1;
+  double? harga;
+  bool _isWish = false;
   final AuthService authService = AuthService();
   final ProductService productService = ProductService();
 
-  void navigateToSeachScreen(String query) {
-    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchWishStatus();
+    // fetchAllKodeColor();
+  }
+
+  fetchWishStatus() async {
+    _isWish = await productService.wishListDetail(
+        context: context, itemId: widget.product.id.toString());
+    setState(() {});
+  }
+
+  void _toggleWishList(String id_barang) {
+    setState(() {
+      _isWish = !_isWish;
+    });
+    productService.wishList(
+      context: context,
+      itemId: id_barang,
+      status: _isWish,
+    );
   }
 
   void addToCart() {
     productService.addToCart(
       context: context,
       product: widget.product,
-      jumlah: 1,
+      jumlah: jumlah,
     );
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // fetchAllKodeColor();
+  void navigateToSeachScreen(String query) {
+    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
+  void increaseQuantity(int result) {
+    jumlah = result + 1;
+    // harga
+    setState(() {});
+  }
+
+  void decreaseQuantity(int result) {
+    if (jumlah != 0) {
+      jumlah = result - 1;
+    }
+    setState(() {});
   }
 
   //// belum kapake
@@ -59,6 +95,9 @@ class _detailState extends State<detail> {
   Widget build(BuildContext context) {
     // var data = jsonDecode(jsonEncode(kodeColor)); // blm terpake karna blm ada relasi
     // print(data);
+    harga == null
+        ? harga = widget.product.harga
+        : harga = widget.product.harga * jumlah;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -193,11 +232,23 @@ class _detailState extends State<detail> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              Icon(
-                                Icons.favorite_outline,
-                                color: Colors.black,
-                                size: 25,
-                              ),
+                              // icon
+                              // Icon(
+                              //   Icons.favorite_outline,
+                              //   color: Colors.black,
+                              //   size: 25,
+                              // ),
+                              GestureDetector(
+                                onTap: () {
+                                  _toggleWishList(widget.product.id.toString());
+                                },
+                                child: Icon(
+                                  _isWish
+                                      ? Icons.favorite
+                                      : Icons.favorite_outline,
+                                  color: _isWish ? Colors.red : Colors.black,
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -223,16 +274,6 @@ class _detailState extends State<detail> {
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(width: 120),
-                              // Expanded(
-                              //   child: Text(
-                              //     "SEE REVIEW",
-                              //     style: TextStyle(
-                              //       color: Colors.purple,
-                              //       fontSize: 15,
-                              //       //fontWeight: FontWeight.bold
-                              //     ),
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
@@ -331,55 +372,116 @@ class _detailState extends State<detail> {
                                       Row(
                                         children: [
                                           Container(
-                                            height: 30,
-                                            width: 40,
                                             decoration: BoxDecoration(
-                                                color: Colors.grey,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Center(
-                                              child: Text(
-                                                "-",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                              border: Border.all(
+                                                color: Colors.black12,
+                                                width: 1.5,
                                               ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: Colors.black12,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () =>
+                                                      decreaseQuantity(jumlah),
+                                                  child: Container(
+                                                    width: 35,
+                                                    height: 32,
+                                                    alignment: Alignment.center,
+                                                    child: const Icon(
+                                                      Icons.remove,
+                                                      size: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                                DecoratedBox(
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.black12,
+                                                        width: 1.5),
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            0),
+                                                  ),
+                                                  child: Container(
+                                                    width: 35,
+                                                    height: 32,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      jumlah.toString(),
+                                                    ),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () =>
+                                                      increaseQuantity(jumlah),
+                                                  child: Container(
+                                                    width: 35,
+                                                    height: 32,
+                                                    alignment: Alignment.center,
+                                                    child: const Icon(
+                                                      Icons.add,
+                                                      size: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Container(
-                                            height: 30,
-                                            width: 40,
-                                            child: Center(
-                                              child: Text(
-                                                "1",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 30,
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Center(
-                                              child: Text(
-                                                "+",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                          )
+                                          // original
+                                          // Container(
+                                          //   height: 30,
+                                          //   width: 40,
+                                          //   decoration: BoxDecoration(
+                                          //       color: Colors.grey,
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(10)),
+                                          //   child: Center(
+                                          //     child: Text(
+                                          //       "-",
+                                          //       style: TextStyle(
+                                          //           color: Colors.black,
+                                          //           fontSize: 15,
+                                          //           fontWeight:
+                                          //               FontWeight.bold),
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                          // Container(
+                                          //   height: 30,
+                                          //   width: 40,
+                                          //   child: Center(
+                                          //     child: Text(
+                                          //       "1",
+                                          //       style: TextStyle(
+                                          //           color: Colors.black,
+                                          //           fontSize: 15,
+                                          //           fontWeight:
+                                          //               FontWeight.bold),
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                          // Container(
+                                          //   height: 30,
+                                          //   width: 40,
+                                          //   decoration: BoxDecoration(
+                                          //       color: Colors.grey,
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(10)),
+                                          //   child: Center(
+                                          //     child: Text(
+                                          //       "+",
+                                          //       style: TextStyle(
+                                          //           color: Colors.black,
+                                          //           fontSize: 15,
+                                          //           fontWeight:
+                                          //               FontWeight.bold),
+                                          //     ),
+                                          //   ),
+                                          // )
                                         ],
                                       ),
                                     ],
@@ -408,8 +510,9 @@ class _detailState extends State<detail> {
                               ),
                               Text(
                                 // "Rp.12.000.000",
-                                convertToIdr(widget.product.harga, 2)
-                                    .toString(),
+                                convertToIdr(harga, 2).toString(),
+                                // convertToIdr(widget.product.harga, 2)
+                                //     .toString(),
                                 style: TextStyle(
                                   color: Colors.orange,
                                   fontSize: 20,

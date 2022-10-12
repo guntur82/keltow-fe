@@ -5,6 +5,7 @@ import 'package:flutter_project/constants/ultils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/models/cart.dart';
 import 'package:flutter_project/models/product.dart';
+import 'package:flutter_project/models/wishlist.dart';
 import 'package:flutter_project/providers/user_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -44,23 +45,64 @@ class ProductService {
           'auth': userProvider.user.access_token,
         },
       );
-
-      // sengaja diilangin soalnya masih bug view
-      // httpErrorHandle(
-      //   response: res,
-      //   context: context,
-      //   onSuccess: () {
-      //     showSnackBar(
-      //       context,
-      //       'Barang berhasil ditambahkan kedalam cart',
-      //     );
-      //     // User user =
-      //     //     userProvider.user.copyWith(cart: jsonDecode(res.body)['cart']);
-      //     // userProvider.setUserFromModel(user);
-      //   },
-      // );
     } catch (e) {
-      // showSnackBar(context, e.toString());
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+    }
+  }
+
+  void wishList({
+    required BuildContext context,
+    required String itemId,
+    required bool status,
+  }) async {
+    try {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      http.Response res = status
+          ? await http.post(
+              Uri.parse('$uri/api/wishlist'),
+              body: jsonEncode({
+                'itemId': itemId,
+              }),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'auth': userProvider.user.access_token,
+              },
+            )
+          : await http.delete(
+              Uri.parse('$uri/api/wishlist'),
+              body: jsonEncode({
+                'itemId': itemId,
+              }),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'auth': userProvider.user.access_token,
+              },
+            );
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+    }
+  }
+
+  wishListDetail({
+    required BuildContext context,
+    required String itemId,
+  }) async {
+    try {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/wishlist/detail'),
+        body: jsonEncode({
+          'itemId': itemId,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'auth': userProvider.user.access_token,
+        },
+      );
+
+      final status = res.body == "true" ? true : false;
+      return status;
+    } catch (e) {
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
     }
   }
@@ -95,5 +137,36 @@ class ProductService {
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
     }
     return cartList;
+  }
+
+  Future<List<WishList>> fetchWishList(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<WishList> wishList = [];
+    try {
+      http.Response res =
+          await http.get(Uri.parse('$uri/api/wishlist/info'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'auth': userProvider.user.access_token,
+      });
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            wishList.add(
+              WishList.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+          }
+        },
+      );
+    } catch (e) {
+      // showSnackBar(context, e.toString());
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+    }
+    return wishList;
   }
 }

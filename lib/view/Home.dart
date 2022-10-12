@@ -110,6 +110,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    int sample = 1;
     final user = Provider.of<UserProvider>(context).user;
     int countCart = 0;
     if (products != null) {
@@ -261,8 +262,10 @@ class _HomePageState extends State<HomePage>
                                   child: GestureDetector(
                                     onTap: () {
                                       Navigator.pushNamed(
-                                          context, detail.routeName,
-                                          arguments: productData);
+                                        context,
+                                        detail.routeName,
+                                        arguments: productData,
+                                      );
                                       // Navigator.push(
                                       //     context,
                                       //     MaterialPageRoute(
