@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage>
     int sample = 1;
     final user = Provider.of<UserProvider>(context).user;
     int countCart = 0;
-    if (products != null) {
+    if (products != null && cart != null) {
       for (int i = 0; i < jsonDecode(jsonEncode(products)).length; i++) {
         var dataProduct = jsonDecode(jsonEncode(products));
         for (int j = 0; j < jsonDecode(jsonEncode(cart)).length; j++) {
@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage>
       }
     }
 
-    return products == null
+    return products == null && cart == null
         ? const Loader()
         : Scaffold(
             appBar: AppBar(
