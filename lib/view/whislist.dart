@@ -174,10 +174,7 @@ class _WhislistState extends State<Whislist> {
                                           _toggleWishList(Product.fromJson(data)
                                               .id
                                               .toString());
-                                          // _toggleWishList(Product.fromJson(data)
-                                          //     .id
-                                          //     .toString());
-                                          // setState(() {});
+                                          setState(() {});
                                         },
                                         icon: const Icon(
                                           Icons.restore_from_trash,
