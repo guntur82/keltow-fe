@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/LoginRegister/HomePage_log_res.dart';
 import 'package:flutter_project/LoginRegister/Login_page.dart';
+import 'package:flutter_project/view/DetailProfil.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -76,7 +77,12 @@ class _ProfileState extends State<Profile> {
                               borderRadius: BorderRadius.circular(32),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailProfil()));
+                          },
                           child: Text("  >  ")),
                     ),
                   ],
