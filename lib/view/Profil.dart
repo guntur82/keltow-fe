@@ -42,7 +42,9 @@ class _ProfileState extends State<Profile> {
                         border: Border.all(width: 2, color: Colors.white),
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                          image: NetworkImage(uriGambar + user.gambar),
+                          image: NetworkImage(user.gambar == null
+                              ? uriGambar + user.gambar
+                              : 'https://cdn.pixabay.com/photo/2014/04/12/14/59/portrait-322470__340.jpg'),
                         ),
                         boxShadow: [
                           BoxShadow(

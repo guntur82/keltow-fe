@@ -158,7 +158,9 @@ class _DetailProfilState extends State<DetailProfil> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             // image: AssetImage("assets/nokia.jfif"),
-                            image: NetworkImage(uriGambar + user.gambar),
+                            image: NetworkImage(user.gambar == null
+                                ? uriGambar + user.gambar
+                                : 'https://cdn.pixabay.com/photo/2014/04/12/14/59/portrait-322470__340.jpg'),
                           ),
                           boxShadow: [
                             BoxShadow(
