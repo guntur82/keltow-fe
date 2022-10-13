@@ -22,148 +22,81 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Profile"),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.lightBlueAccent,
         ),
         body: Container(
+          padding: EdgeInsets.only(
+            top: 5,
+          ),
           margin: EdgeInsets.only(left: 10, right: 10),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.zero,
-                      width: 60,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2, color: Colors.white),
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(user.gambar == null
-                              ? uriGambar + user.gambar
-                              : 'https://cdn.pixabay.com/photo/2014/04/12/14/59/portrait-322470__340.jpg'),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                            color: Colors.black,
+                Ink(
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.zero,
+                        width: 60,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 2, color: Colors.white),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(user.gambar == null
+                                ? uriGambar + user.gambar
+                                : 'https://cdn.pixabay.com/photo/2014/04/12/14/59/portrait-322470__340.jpg'),
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      child: Text(
-                        user.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                    Container(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(60, 50),
-                            maximumSize: const Size(60, 50),
-                            primary: Colors.deepOrange,
-                            onSurface: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(32),
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              color: Colors.black,
                             ),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailProfil()));
-                          },
-                          child: Text("  >  ")),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      child: Text(
-                        "History Pemesanan",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          ],
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                    Container(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(60, 50),
-                            maximumSize: const Size(60, 50),
-                            primary: Colors.deepOrange,
-                            onSurface: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(32),
-                            ),
+                      Container(
+                        child: Text(
+                          user.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
-                          onPressed: () {},
-                          child: Text("  >  ")),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      child: Text(
-                        "Progres Pemesanan",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                    Container(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(60, 50),
-                            maximumSize: const Size(60, 50),
-                            primary: Colors.deepOrange,
-                            onSurface: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(32),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Container(
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(60, 50),
+                              maximumSize: const Size(60, 50),
+                              primary: Colors.grey,
+                              onSurface: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
                             ),
-                          ),
-                          onPressed: () {},
-                          child: Text("  >  ")),
-                    ),
-                  ],
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailProfil()));
+                            },
+                            child: Text("  >  ",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20))),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 400,

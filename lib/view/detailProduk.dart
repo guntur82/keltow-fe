@@ -289,7 +289,7 @@ class _detailState extends State<detail> {
                               Column(
                                 children: [
                                   Text(
-                                    "Choose Color",
+                                    "Jumlah",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 15,
@@ -321,54 +321,7 @@ class _detailState extends State<detail> {
                                       //         scrollDirection: Axis.horizontal,
                                       //       ),
                                       /// end
-                                      Container(
-                                        height: 20,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Container(
-                                        height: 20,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                          color: Colors.green,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Container(
-                                        height: 20,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                          color: Colors.blue,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Container(
-                                        height: 20,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 65,
-                                      ),
+
                                       Row(
                                         children: [
                                           Container(
@@ -546,11 +499,11 @@ class _detailState extends State<detail> {
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(140, 50),
-                              primary: Colors.yellow,
+                              primary: Colors.yellow[700],
                               side: BorderSide(
                                   width: 1.5, color: Colors.yellow[400]!),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(0))),
+                                  borderRadius: BorderRadius.circular(10))),
                           onPressed: () {
                             setState(() {
                               addToCart();
@@ -577,7 +530,7 @@ class _detailState extends State<detail> {
                               primary: Colors.blue,
                               side: BorderSide(width: 1.5, color: Colors.blue),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(0))),
+                                  borderRadius: BorderRadius.circular(10))),
                           onPressed: () {
                             Navigator.push(
                                 context,

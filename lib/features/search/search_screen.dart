@@ -163,7 +163,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            backgroundColor: Colors.lightBlueAccent,
+            backgroundColor: Colors.blue[100],
             body: GridView.builder(
               itemCount: products!.length,
               primary: false,
@@ -177,105 +177,97 @@ class _SearchScreenState extends State<SearchScreen> {
                 final productData = products![index];
                 var picture = uriGambar + productData.gambar;
                 return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          constraints: const BoxConstraints(
-                            minHeight: 30,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, detail.routeName,
-                                  arguments: productData);
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => detail()));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Container(
-                                height: 130,
-                                width: 95,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  // border: Border.all(color: Colors.black,width: 2),
-                                  borderRadius: BorderRadius.circular(18),
-                                  image: DecorationImage(
-                                      // image: AssetImage("assets/samsung.jfif"),
-                                      image: NetworkImage(picture),
-                                      // colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
-                                      scale: 1.6,
-                                      alignment: Alignment.center),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.5),
-                                      spreadRadius: 5,
-                                      blurRadius: 3,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Column(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    textAlign: TextAlign.center,
-                                    productData.name,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                SizedBox(width: 8),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                      size: 14,
-                                    ),
-                                    // SizedBox(width: 2),
-                                    Text(
-                                      "5 (100 rating)",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                    Container(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, detail.routeName,
+                                arguments: productData);
+                          },
+                          child: Container(
+                            height: 180,
+                            width: 160,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              // border: Border.all(color: Colors.black,width: 2),
+                              borderRadius: BorderRadius.circular(18),
+                              image: DecorationImage(
+                                  // image: AssetImage("assets/samsung.jfif"),
+                                  image: NetworkImage(picture),
+                                  // colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+                                  scale: 2.2,
+                                  alignment: Alignment.center),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 3,
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
                                 ),
                               ],
                             ),
-                            Text(
-                              convertToIdr(productData.harga, 2).toString(),
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.bold),
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(left: 6, top: 150),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          textAlign: TextAlign.center,
+                                          productData.name,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 9,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.yellow,
+                                            size: 14,
+                                          ),
+                                          // SizedBox(width: 2),
+                                          Text(
+                                            "5 (100 rating)",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        convertToIdr(productData.harga, 2)
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              // width: 8,
-                              width: 15,
-                              height: 15,
-                            ),
-                          ],
+                          ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 );

@@ -69,6 +69,13 @@ class _TransaksiState extends State<Transaksi> {
       //     ],
       //   ),
       // ),
+      appBar: AppBar(
+        title: Text(
+          "Transaksi",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.blue[200],
+      ),
       backgroundColor: Colors.blue[200],
       body: Container(
         margin: EdgeInsets.only(top: 15, left: 8, right: 8),
