@@ -69,7 +69,7 @@ class _TransaksiState extends State<Transaksi> {
       //     ],
       //   ),
       // ),
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: Colors.blue[200],
       body: Container(
         margin: EdgeInsets.only(top: 15, left: 8, right: 8),
         child: ListView.builder(

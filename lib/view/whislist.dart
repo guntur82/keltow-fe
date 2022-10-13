@@ -58,12 +58,12 @@ class _WhislistState extends State<Whislist> {
     var dataProduct = jsonDecode(jsonEncode(products)) ?? null;
     return dataWish == null || dataProduct == null
         ? Scaffold(
-            backgroundColor: Colors.lightBlueAccent,
+            backgroundColor: Colors.blue[200],
             body: Container(
               margin: EdgeInsets.only(top: 15, left: 8, right: 8),
             ))
         : Scaffold(
-            backgroundColor: Colors.lightBlueAccent,
+            backgroundColor: Colors.blue[200],
             body: Container(
               margin: EdgeInsets.only(top: 15, left: 8, right: 8),
               child: ListView.builder(

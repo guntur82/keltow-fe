@@ -17,12 +17,12 @@ import 'package:badges/badges.dart';
 import 'dart:convert';
 
 final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-  'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
+  'assets/oppo2.jfif',
+  'assets/iphone2.jfif',
+  'assets/realme.jfif',
+  'assets/samsung1.jfif',
+  'assets/vivo1.jfif',
+  'assets/nokia1.jfif'
 ];
 
 class HomePage extends StatefulWidget {
@@ -40,7 +40,7 @@ final List<Widget> imageSliders = imgList
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
               child: Stack(
                 children: <Widget>[
-                  Image.network(item, fit: BoxFit.cover, width: 9000.0),
+                  Image.asset(item, fit: BoxFit.cover, width: 5000.0),
                   Positioned(
                     bottom: 0.0,
                     left: 0.0,
@@ -110,10 +110,9 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    int sample = 1;
     final user = Provider.of<UserProvider>(context).user;
     int countCart = 0;
-    if (products != null && cart != null) {
+    if (products != null) {
       for (int i = 0; i < jsonDecode(jsonEncode(products)).length; i++) {
         var dataProduct = jsonDecode(jsonEncode(products));
         for (int j = 0; j < jsonDecode(jsonEncode(cart)).length; j++) {
@@ -126,11 +125,11 @@ class _HomePageState extends State<HomePage>
       }
     }
 
-    return products == null || cart == null
+    return products == null
         ? const Loader()
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.lightBlueAccent,
+              backgroundColor: Colors.blue[100],
               title: Row(
                 children: [
                   Expanded(
@@ -215,7 +214,7 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            backgroundColor: Colors.lightBlueAccent,
+            backgroundColor: Colors.blue[100],
             body: SingleChildScrollView(
               padding: EdgeInsets.all(8),
               child: Column(
@@ -271,7 +270,7 @@ class _HomePageState extends State<HomePage>
                                           // image: AssetImage("assets/samsung.jfif"),
                                           image: NetworkImage(picture),
                                           // colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
-                                          scale: 3,
+                                          scale: 2.2,
                                           alignment: Alignment.center),
                                       boxShadow: [
                                         BoxShadow(
@@ -350,119 +349,6 @@ class _HomePageState extends State<HomePage>
                             ),
                           ],
                         );
-
-                        /// original
-                        // return Column(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Column(
-                        //       children: [
-                        //         Container(
-                        //           width: MediaQuery.of(context).size.width,
-                        //           constraints: const BoxConstraints(
-                        //             minHeight: 30,
-                        //           ),
-                        //           child: GestureDetector(
-                        //             onTap: () {
-                        //               Navigator.pushNamed(
-                        //                 context,
-                        //                 detail.routeName,
-                        //                 arguments: productData,
-                        //               );
-                        //               // Navigator.push(
-                        //               //     context,
-                        //               //     MaterialPageRoute(
-                        //               //         builder: (context) => detail()));
-                        //             },
-                        //             child: Padding(
-                        //               padding: const EdgeInsets.all(5.0),
-                        //               child: Container(
-                        //                 height: 130,
-                        //                 width: 95,
-                        //                 decoration: BoxDecoration(
-                        //                   color: Colors.white,
-                        //                   // border: Border.all(color: Colors.black,width: 2),
-                        //                   borderRadius:
-                        //                       BorderRadius.circular(18),
-                        //                   image: DecorationImage(
-                        //                       // image: AssetImage("assets/samsung.jfif"),
-                        //                       image: NetworkImage(picture),
-                        //                       // colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
-                        //                       scale: 1.6,
-                        //                       alignment: Alignment.center),
-                        //                   boxShadow: [
-                        //                     BoxShadow(
-                        //                       color:
-                        //                           Colors.black.withOpacity(0.5),
-                        //                       spreadRadius: 5,
-                        //                       blurRadius: 3,
-                        //                       offset: Offset(0,
-                        //                           3), // changes position of shadow
-                        //                     ),
-                        //                   ],
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //         Column(
-                        //           // crossAxisAlignment: CrossAxisAlignment.start,
-                        //           mainAxisAlignment:
-                        //               MainAxisAlignment.spaceEvenly,
-                        //           children: [
-                        //             Row(
-                        //               mainAxisAlignment:
-                        //                   MainAxisAlignment.spaceEvenly,
-                        //               children: [
-                        //                 Flexible(
-                        //                   child: Text(
-                        //                     textAlign: TextAlign.center,
-                        //                     productData.name,
-                        //                     style: TextStyle(
-                        //                         color: Colors.black,
-                        //                         fontSize: 9,
-                        //                         fontWeight: FontWeight.bold),
-                        //                   ),
-                        //                 ),
-                        //                 SizedBox(width: 8),
-                        //                 Row(
-                        //                   children: [
-                        //                     Icon(
-                        //                       Icons.star,
-                        //                       color: Colors.yellow,
-                        //                       size: 14,
-                        //                     ),
-                        //                     // SizedBox(width: 2),
-                        //                     Text(
-                        //                       "5 (100 rating)",
-                        //                       style: TextStyle(
-                        //                           color: Colors.black,
-                        //                           fontSize: 9,
-                        //                           fontWeight: FontWeight.bold),
-                        //                     ),
-                        //                   ],
-                        //                 ),
-                        //               ],
-                        //             ),
-                        //             Text(
-                        //               convertToIdr(productData.harga, 2)
-                        //                   .toString(),
-                        //               style: TextStyle(
-                        //                   color: Colors.red,
-                        //                   fontSize: 9,
-                        //                   fontWeight: FontWeight.bold),
-                        //             ),
-                        //             SizedBox(
-                        //               // width: 8,
-                        //               width: 15,
-                        //               height: 15,
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // );
                       },
                     ),
                   )
