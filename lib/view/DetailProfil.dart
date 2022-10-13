@@ -122,7 +122,7 @@ class _DetailProfilState extends State<DetailProfil> {
           "Profil",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.blue[100],
+        backgroundColor: Colors.lightBlueAccent,
       ),
       backgroundColor: Colors.blue[100],
       body: Container(
@@ -142,7 +142,7 @@ class _DetailProfilState extends State<DetailProfil> {
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: Colors.black)),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               Center(
                 child: Stack(
                   children: [
@@ -195,7 +195,7 @@ class _DetailProfilState extends State<DetailProfil> {
                   ],
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 20),
               Form(
                 child: Container(
                   child: Column(

@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage>
         ? const Loader()
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.blue[100],
+              backgroundColor: Colors.lightBlueAccent,
               title: Row(
                 children: [
                   Expanded(

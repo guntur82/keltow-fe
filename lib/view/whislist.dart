@@ -63,6 +63,13 @@ class _WhislistState extends State<Whislist> {
               margin: EdgeInsets.only(top: 15, left: 8, right: 8),
             ))
         : Scaffold(
+            appBar: AppBar(
+              title: Text(
+                "Whislist",
+                style: TextStyle(color: Colors.black),
+              ),
+              backgroundColor: Colors.blue[200],
+            ),
             backgroundColor: Colors.blue[200],
             body: Container(
               margin: EdgeInsets.only(top: 15, left: 8, right: 8),
