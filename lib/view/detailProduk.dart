@@ -81,7 +81,7 @@ class _detailState extends State<detail> {
   }
 
   void decreaseQuantity(int result) {
-    if (jumlah != 0) {
+    if (jumlah != 1) {
       jumlah = result - 1;
     }
     setState(() {});
@@ -97,6 +97,9 @@ class _detailState extends State<detail> {
   Widget build(BuildContext context) {
     // var data = jsonDecode(jsonEncode(kodeColor)); // blm terpake karna blm ada relasi
     // print(data);
+    final paymentController = Get.put(PaymentController());
+    List itemId = [];
+    itemId.add(widget.product.id);
     harga == null
         ? harga = widget.product.harga
         : harga = widget.product.harga * jumlah;
@@ -541,11 +544,15 @@ class _detailState extends State<detail> {
                               side: BorderSide(width: 1.5, color: Colors.blue),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Payment()));
+                          onPressed: () async {
+                            int jumlah = widget.product.harga.toInt();
+                            paymentController.makePaymentNow(
+                              context: context,
+                              amount: jumlah.toString(),
+                              currency: "IDR",
+                              listItem: itemId,
+                              jumlahTotal: jumlah,
+                            );
                           },
                           child: Text("BUY NOW")),
                     ],
