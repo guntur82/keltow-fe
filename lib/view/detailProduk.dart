@@ -14,6 +14,8 @@ import 'package:flutter_project/view/Payment.dart';
 import 'package:flutter_project/view/whislist.dart';
 import 'package:flutter_project/constants/global_variables.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_project/controller/payment_controller.dart';
+import 'package:get/get.dart';
 
 class detail extends StatefulWidget {
   static const String routeName = '/product-details';
