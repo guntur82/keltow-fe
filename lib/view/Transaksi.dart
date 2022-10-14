@@ -1,4 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_project/constants/global_variables.dart';
+import 'package:flutter_project/features/services/auth_service.dart';
+import 'package:flutter_project/features/services/product_service.dart';
+import 'package:flutter_project/models/cart.dart';
+import 'package:flutter_project/models/transaksi.dart';
+import 'package:flutter_project/models/product.dart';
 
 class Transaksi extends StatefulWidget {
   const Transaksi({Key? key}) : super(key: key);
@@ -8,6 +16,34 @@ class Transaksi extends StatefulWidget {
 }
 
 class _TransaksiState extends State<Transaksi> {
+  List<Product>? products;
+  List<Transaction>? transaksi;
+  List<Cart>? cart;
+  final AuthService authService = AuthService();
+  final ProductService productService = ProductService();
+  @override
+  void initState() {
+    super.initState();
+    fetchCartList();
+    fetchAllProduct();
+    fetchAllTransaksi();
+  }
+
+  fetchCartList() async {
+    cart = await productService.fetchCartListDone(context);
+    setState(() {});
+  }
+
+  fetchAllProduct() async {
+    products = await authService.fetchAllProducts(context);
+    setState(() {});
+  }
+
+  fetchAllTransaksi() async {
+    transaksi = await productService.fetchTransaksiList(context);
+    setState(() {});
+  }
+
   final List menu = [
     "Samsung Z Flip",
     "Vivo",
@@ -19,56 +55,30 @@ class _TransaksiState extends State<Transaksi> {
   ];
   @override
   Widget build(BuildContext context) {
+    List detailProduct = [];
+    List detailCart = [];
+    List detailTransaction = [];
+    if (products != null && cart != null && transaksi != null) {
+      for (int i = 0; i < jsonDecode(jsonEncode(products)).length; i++) {
+        var dataProduct = jsonDecode(jsonEncode(products));
+        for (int j = 0; j < jsonDecode(jsonEncode(cart)).length; j++) {
+          var dataCart = jsonDecode(jsonEncode(cart));
+          if ((Product.fromJson(dataProduct[i]).id ==
+              Cart.fromJson(dataCart[j]).itemId)) {
+            for (int k = 0; k < jsonDecode(jsonEncode(transaksi)).length; k++) {
+              var dataTransaksi = jsonDecode(jsonEncode(transaksi));
+              if ((Transaction.fromJson(dataTransaksi[k]).cartId ==
+                  Cart.fromJson(dataCart[j]).id)) {
+                detailTransaction.add(dataTransaksi[k]);
+                detailProduct.add(dataProduct[i]);
+                detailCart.add(dataCart[j]);
+              }
+            }
+          }
+        }
+      }
+    }
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.lightBlueAccent,
-      //   title: Row(
-      //     children: [
-      //       Expanded(
-      //         flex: 5,
-      //         child: Container(
-      //           child: TextField(
-      //             decoration: InputDecoration(
-      //               border: OutlineInputBorder(
-      //                 borderRadius: BorderRadius.circular(16),
-      //               ),
-      //               contentPadding: EdgeInsets.symmetric(
-      //                 vertical: 0,
-      //                 horizontal: 10,
-      //               ),
-      //               hintText: "Search Product....",
-      //               hintStyle: TextStyle(color: Colors.black54),
-      //               fillColor: Colors.white54,
-      //               filled: true,
-      //               prefixIcon: Icon(Icons.search),
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //       Expanded(
-      //         flex: 1,
-      //         child: Container(
-      //           //margin: EdgeInsets.only(top: 60),
-      //           child: IconButton(
-      //             onPressed: () {},
-      //             icon: Icon(Icons.notifications_none),
-      //             color: Colors.black54,
-      //           ),
-      //         ),
-      //       ),
-      //       Expanded(
-      //         flex: 1,
-      //         child: Container(
-      //           //margin: EdgeInsets.only(top: 60),
-      //           child: IconButton(
-      //               onPressed: () {},
-      //               icon: const Icon(Icons.shopping_cart_rounded),
-      //               color: Colors.black54),
-      //         ),
-      //       )
-      //     ],
-      //   ),
-      // ),
       appBar: AppBar(
         title: Text(
           "Transaksi",
@@ -80,7 +90,12 @@ class _TransaksiState extends State<Transaksi> {
       body: Container(
         margin: EdgeInsets.only(top: 15, left: 8, right: 8),
         child: ListView.builder(
+          itemCount: detailTransaction.length,
+          shrinkWrap: true,
           itemBuilder: (context, index) {
+            var status = Cart.fromJson(detailCart[index]).status_pengiriman == 0
+                ? 'Dikemas'
+                : 'Selesai';
             return Card(
               shadowColor: Colors.black,
               elevation: 20,
@@ -94,8 +109,11 @@ class _TransaksiState extends State<Transaksi> {
                   padding: EdgeInsets.all(12),
                   child: Row(
                     children: [
-                      Image.asset(
-                        "assets/samsung.jfif",
+                      Image.network(
+                        uriGambar +
+                            Product.fromJson(detailProduct[index]).gambar,
+                        // Image.asset(
+                        //   "assets/samsung.jfif",
                         width: 100,
                         height: 100,
                       ),
@@ -109,7 +127,11 @@ class _TransaksiState extends State<Transaksi> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Kode Pembayaran : 078-ASDEQ-07-08",
+                              Text(
+                                  "Kode : " +
+                                      Transaction.fromJson(
+                                              detailTransaction[index])
+                                          .kode_transaksi,
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: Colors.blue,
@@ -123,7 +145,7 @@ class _TransaksiState extends State<Transaksi> {
                             height: 2,
                           ),
                           Text(
-                            "Samsung Note 8",
+                            Product.fromJson(detailProduct[index]).name,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -133,16 +155,12 @@ class _TransaksiState extends State<Transaksi> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Color",
+                              Text("Status Pesanan : " + status,
                                   style: TextStyle(
                                       color: Colors.blue,
                                       fontStyle: FontStyle.italic)),
                               const SizedBox(
                                 width: 10,
-                              ),
-                              Icon(
-                                Icons.panorama_wide_angle_select_outlined,
-                                color: Colors.brown,
                               )
                             ],
                           ),
@@ -150,14 +168,20 @@ class _TransaksiState extends State<Transaksi> {
                             height: 0,
                           ),
                           Text(
-                            "Item   : 1",
+                            "Item   : " +
+                                Cart.fromJson(detailCart[index])
+                                    .jumlah
+                                    .toString(),
                             style: TextStyle(fontSize: 16, color: Colors.black),
                           ),
                           SizedBox(
                             height: 0,
                           ),
                           Text(
-                            "Total  : Rp.12.000.000",
+                            "Total  : " +
+                                Transaction.fromJson(detailTransaction[index])
+                                    .totalHarga
+                                    .toString(),
                             style: TextStyle(
                                 fontSize: 16, color: Color(0xffFA6400)),
                           ),
@@ -170,7 +194,6 @@ class _TransaksiState extends State<Transaksi> {
                   )),
             );
           },
-          itemCount: menu.length,
         ),
       ),
       // Card(

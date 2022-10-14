@@ -5,6 +5,7 @@ import 'package:flutter_project/constants/ultils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/models/cart.dart';
 import 'package:flutter_project/models/product.dart';
+import 'package:flutter_project/models/transaksi.dart';
 import 'package:flutter_project/models/wishlist.dart';
 import 'package:flutter_project/providers/user_provider.dart';
 import 'package:intl/intl.dart';
@@ -83,6 +84,62 @@ class ProductService {
     }
   }
 
+  void transaction({
+    required BuildContext context,
+    required List itemId,
+    required int status_barang,
+  }) async {
+    try {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      var now = new DateTime.now();
+      var formatter = new DateFormat('yyyy-MM-dd');
+      String formattedDate = formatter.format(now);
+      http.Response res = await http.put(
+        Uri.parse('$uri/api/cart'),
+        body: jsonEncode({
+          'itemList': itemId,
+          'status_barang': status_barang,
+          'tanggal': formattedDate,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'auth': userProvider.user.access_token,
+        },
+      );
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+    }
+  }
+
+  void transactionNow({
+    required BuildContext context,
+    required List itemId,
+    required int status_barang,
+    required int jumlah,
+  }) async {
+    try {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      var now = new DateTime.now();
+      var formatter = new DateFormat('yyyy-MM-dd');
+      String formattedDate = formatter.format(now);
+      http.Response res = await http.put(
+        Uri.parse('$uri/api/cart'),
+        body: jsonEncode({
+          'itemId': itemId[0],
+          'status_barang': status_barang,
+          'tanggal': formattedDate,
+          'jumlah': jumlah,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'auth': userProvider.user.access_token,
+        },
+      );
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+    }
+  }
+
   wishListDetail({
     required BuildContext context,
     required String itemId,
@@ -137,6 +194,69 @@ class ProductService {
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
     }
     return cartList;
+  }
+
+  Future<List<Cart>> fetchCartListDone(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<Cart> cartList = [];
+    try {
+      http.Response res =
+          await http.get(Uri.parse('$uri/api/cart/listDone'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'auth': userProvider.user.access_token,
+      });
+      print(res.body);
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            cartList.add(
+              Cart.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+            // print(jsonDecode(jsonEncode(cartList)));
+          }
+        },
+      );
+    } catch (e) {
+      // showSnackBar(context, e.toString());
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+    }
+    return cartList;
+  }
+
+  Future<List<Transaction>> fetchTransaksiList(BuildContext context) async {
+    List<Transaction> transaksiList = [];
+    try {
+      http.Response res =
+          await http.get(Uri.parse('$uri/api/cart/transaksi'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      });
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            transaksiList.add(
+              Transaction.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+            // print(jsonDecode(jsonEncode(transaksiList)));
+          }
+        },
+      );
+    } catch (e) {
+      // showSnackBar(context, e.toString());
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+    }
+    return transaksiList;
   }
 
   Future<List<WishList>> fetchWishList(BuildContext context) async {
