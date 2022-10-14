@@ -273,177 +273,185 @@ class _detailState extends State<detail> {
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(width: 120),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 0),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 15,
-                            left: 20,
-                            right: 20,
-                          ),
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    "Jumlah",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Row(
-                                    children: [
-                                      /// start (blm jalan blm ada relasinya ternayta hehe :3)
-                                      // kodeColor == null
-                                      //     ? const Loader()
-                                      //     : ListView.builder(
-                                      //         itemCount: kodeColor!.length,
-                                      //         itemBuilder: (context, index) {
-                                      //           final color = kodeColor![index];
-                                      //           print(color);
-                                      //           return Text('test');
-                                      //           // Container(
-                                      //           //   height: 20,
-                                      //           //   width: 30,
-                                      //           //   decoration: BoxDecoration(
-                                      //           //     color: Colors.red,
-                                      //           //     borderRadius:
-                                      //           //         BorderRadius.circular(
-                                      //           //             10),
-                                      //           //   ),
-                                      //           // );
-                                      //         },
-                                      //         scrollDirection: Axis.horizontal,
-                                      //       ),
-                                      /// end
+                              SizedBox(width: 109),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 15,
+                                  left: 20,
+                                  right: 20,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Jumlah",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(height: 0),
+                                        Row(
+                                          children: [
+                                            /// start (blm jalan blm ada relasinya ternayta hehe :3)
+                                            // kodeColor == null
+                                            //     ? const Loader()
+                                            //     : ListView.builder(
+                                            //         itemCount: kodeColor!.length,
+                                            //         itemBuilder: (context, index) {
+                                            //           final color = kodeColor![index];
+                                            //           print(color);
+                                            //           return Text('test');
+                                            //           // Container(
+                                            //           //   height: 20,
+                                            //           //   width: 30,
+                                            //           //   decoration: BoxDecoration(
+                                            //           //     color: Colors.red,
+                                            //           //     borderRadius:
+                                            //           //         BorderRadius.circular(
+                                            //           //             10),
+                                            //           //   ),
+                                            //           // );
+                                            //         },
+                                            //         scrollDirection: Axis.horizontal,
+                                            //       ),
+                                            /// end
 
-                                      Row(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.black12,
-                                                width: 1.5,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: Colors.black12,
-                                            ),
-                                            child: Row(
+                                            Row(
                                               children: [
-                                                InkWell(
-                                                  onTap: () =>
-                                                      decreaseQuantity(jumlah),
-                                                  child: Container(
-                                                    width: 35,
-                                                    height: 32,
-                                                    alignment: Alignment.center,
-                                                    child: const Icon(
-                                                      Icons.remove,
-                                                      size: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                                DecoratedBox(
+                                                Container(
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color: Colors.black12,
-                                                        width: 1.5),
-                                                    color: Colors.white,
+                                                      color: Colors.black12,
+                                                      width: 1.5,
+                                                    ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            0),
+                                                            5),
+                                                    color: Colors.black12,
                                                   ),
-                                                  child: Container(
-                                                    width: 35,
-                                                    height: 32,
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      jumlah.toString(),
-                                                    ),
+                                                  child: Row(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () =>
+                                                            decreaseQuantity(
+                                                                jumlah),
+                                                        child: Container(
+                                                          width: 35,
+                                                          height: 32,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: const Icon(
+                                                            Icons.remove,
+                                                            size: 18,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      DecoratedBox(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                  .black12,
+                                                              width: 1.5),
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(0),
+                                                        ),
+                                                        child: Container(
+                                                          width: 35,
+                                                          height: 32,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            jumlah.toString(),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () =>
+                                                            increaseQuantity(
+                                                                jumlah),
+                                                        child: Container(
+                                                          width: 35,
+                                                          height: 32,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: const Icon(
+                                                            Icons.add,
+                                                            size: 18,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                                InkWell(
-                                                  onTap: () =>
-                                                      increaseQuantity(jumlah),
-                                                  child: Container(
-                                                    width: 35,
-                                                    height: 32,
-                                                    alignment: Alignment.center,
-                                                    child: const Icon(
-                                                      Icons.add,
-                                                      size: 18,
-                                                    ),
-                                                  ),
-                                                ),
+                                                // original
+                                                // Container(
+                                                //   height: 30,
+                                                //   width: 40,
+                                                //   decoration: BoxDecoration(
+                                                //       color: Colors.grey,
+                                                //       borderRadius:
+                                                //           BorderRadius.circular(10)),
+                                                //   child: Center(
+                                                //     child: Text(
+                                                //       "-",
+                                                //       style: TextStyle(
+                                                //           color: Colors.black,
+                                                //           fontSize: 15,
+                                                //           fontWeight:
+                                                //               FontWeight.bold),
+                                                //     ),
+                                                //   ),
+                                                // ),
+                                                // Container(
+                                                //   height: 30,
+                                                //   width: 40,
+                                                //   child: Center(
+                                                //     child: Text(
+                                                //       "1",
+                                                //       style: TextStyle(
+                                                //           color: Colors.black,
+                                                //           fontSize: 15,
+                                                //           fontWeight:
+                                                //               FontWeight.bold),
+                                                //     ),
+                                                //   ),
+                                                // ),
+                                                // Container(
+                                                //   height: 30,
+                                                //   width: 40,
+                                                //   decoration: BoxDecoration(
+                                                //       color: Colors.grey,
+                                                //       borderRadius:
+                                                //           BorderRadius.circular(10)),
+                                                //   child: Center(
+                                                //     child: Text(
+                                                //       "+",
+                                                //       style: TextStyle(
+                                                //           color: Colors.black,
+                                                //           fontSize: 15,
+                                                //           fontWeight:
+                                                //               FontWeight.bold),
+                                                //     ),
+                                                //   ),
+                                                // )
                                               ],
                                             ),
-                                          ),
-                                          // original
-                                          // Container(
-                                          //   height: 30,
-                                          //   width: 40,
-                                          //   decoration: BoxDecoration(
-                                          //       color: Colors.grey,
-                                          //       borderRadius:
-                                          //           BorderRadius.circular(10)),
-                                          //   child: Center(
-                                          //     child: Text(
-                                          //       "-",
-                                          //       style: TextStyle(
-                                          //           color: Colors.black,
-                                          //           fontSize: 15,
-                                          //           fontWeight:
-                                          //               FontWeight.bold),
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          // Container(
-                                          //   height: 30,
-                                          //   width: 40,
-                                          //   child: Center(
-                                          //     child: Text(
-                                          //       "1",
-                                          //       style: TextStyle(
-                                          //           color: Colors.black,
-                                          //           fontSize: 15,
-                                          //           fontWeight:
-                                          //               FontWeight.bold),
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          // Container(
-                                          //   height: 30,
-                                          //   width: 40,
-                                          //   decoration: BoxDecoration(
-                                          //       color: Colors.grey,
-                                          //       borderRadius:
-                                          //           BorderRadius.circular(10)),
-                                          //   child: Center(
-                                          //     child: Text(
-                                          //       "+",
-                                          //       style: TextStyle(
-                                          //           color: Colors.black,
-                                          //           fontSize: 15,
-                                          //           fontWeight:
-                                          //               FontWeight.bold),
-                                          //     ),
-                                          //   ),
-                                          // )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.only(
                             top: 15,
