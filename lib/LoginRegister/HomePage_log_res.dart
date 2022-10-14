@@ -45,7 +45,7 @@ class _LoginState extends State<Login> {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/welcome.png",
+                  "assets/Keltwo.png",
                   fit: BoxFit.cover,
                 ),
                 const SizedBox(
