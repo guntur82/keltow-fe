@@ -12,6 +12,9 @@ import 'package:flutter_project/models/product.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_project/providers/user_provider.dart';
 import 'package:flutter_project/constants/global_variables.dart';
+// import 'package:stripe_payment/stripe_payment.dart';
+import 'package:get/get.dart';
+import 'package:flutter_project/controller/payment_controller.dart';
 
 class AddressScreen extends StatefulWidget {
   static const String routeName = '/address';
@@ -32,10 +35,6 @@ class _AddressScreenState extends State<AddressScreen> {
   @override
   void initState() {
     super.initState();
-    paymentItems.add(PaymentItem(
-        amount: widget.totalAmount,
-        label: 'Total biaya',
-        status: PaymentItemStatus.final_price));
     fetchCartList();
     fetchAllProduct();
   }
@@ -50,7 +49,14 @@ class _AddressScreenState extends State<AddressScreen> {
     setState(() {});
   }
 
-  void onGooglePayResult(res) {}
+  void onGooglePayResult(res) {
+    // productService.placeOrder(
+    //   context: context,
+    //   address: addressToBeUsed,
+    //   totalSum: double.parse(widget.totalAmount),
+    // );
+  }
+
   void payPressed(String addressFromProvider) {
     addressToBeUsed = "";
 
@@ -61,7 +67,6 @@ class _AddressScreenState extends State<AddressScreen> {
     } else {
       Fluttertoast.showToast(msg: 'ERROR', toastLength: Toast.LENGTH_LONG);
     }
-    print(addressToBeUsed);
   }
 
   @override
@@ -85,6 +90,7 @@ class _AddressScreenState extends State<AddressScreen> {
       }
     }
     final user = Provider.of<UserProvider>(context).user;
+    final paymentController = Get.put(PaymentController());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlueAccent,
@@ -151,23 +157,29 @@ class _AddressScreenState extends State<AddressScreen> {
             CartSubtotal(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: GooglePayButton(
-                onPressed: () => payPressed(user.alamat),
-                paymentConfigurationAsset: 'gpay.json',
-                width: double.infinity,
-                paymentItems: paymentItems,
-                type: GooglePayButtonType.pay,
-                // margin: const EdgeInsets.only(top: 10.0),
-                onPaymentResult: onGooglePayResult,
-                loadingIndicator: const Center(
-                  child: CircularProgressIndicator(),
-                ),
+              child:
+                  // google pay
+                  // GooglePayButton(
+                  // onPressed: () => payPressed(user.alamat),
+                  // paymentConfigurationAsset: 'gpay.json',
+                  // width: double.infinity,
+                  // paymentItems: paymentItems,
+                  // type: GooglePayButtonType.pay,
+                  // // margin: const EdgeInsets.only(top: 10.0),
+                  // onPaymentResult: onGooglePayResult,
+                  // loadingIndicator: const Center(
+                  //   child: CircularProgressIndicator(),
+                  // ),
+                  // ),
+                  CustomButton(
+                text: 'Bayar',
+                // onTap: () {},
+                onTap: () async {
+                  paymentController.makePayment(
+                      amount: sum.toString(), currency: "IDR");
+                },
+                color: Colors.blue[600],
               ),
-              //   CustomButton(
-              // text: 'Bayar',
-              // onTap: () {},
-              // color: Colors.blue[600],
-              // ),
             ),
           ],
         ),
