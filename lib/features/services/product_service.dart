@@ -169,4 +169,44 @@ class ProductService {
     }
     return wishList;
   }
+
+  void placeOrder({
+    required BuildContext context,
+    required String address,
+    required double totalSum,
+    required List cart,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      print(cart);
+      // http.Response res = await http.post(Uri.parse('$uri/api/item'),
+      //     headers: {
+      //       'Content-Type': 'application/json; charset=UTF-8',
+      //       'auth': userProvider.user.access_token,
+      //     },
+      //     body: jsonEncode({
+      //       'itemId': cart,
+      //       'alamat': address,
+      //     }));
+      // httpErrorHandle(
+      //   response: res,
+      //   context: context,
+      //   onSuccess: () {
+      //     for (int i = 0; i < jsonDecode(res.body).length; i++) {
+      //       productList.add(
+      //         Product.fromJson(
+      //           jsonEncode(
+      //             jsonDecode(res.body)[i],
+      //           ),
+      //         ),
+      //       );
+      //       // print(jsonDecode(jsonEncode(productList)));
+      //     }
+      //   },
+      // );
+    } catch (e) {
+      // showSnackBar(context, e.toString());
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+    }
+  }
 }

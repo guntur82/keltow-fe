@@ -8,11 +8,14 @@ import 'package:flutter_project/view/Splash.dart';
 import 'package:flutter_project/LoginRegister/Login_page.dart';
 import 'package:flutter_project/LoginRegister/Register_page.dart';
 import 'package:flutter_project/view/Home.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   // runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+      "pk_test_51LsL4zEkTGFSMNV46DSYBPHM93YvrROzCwpHpk8nDv2THIJDBVN8y5VGql7qhhxCoe2iUv9WoZiU6e4423KQmz3V00RkKSxTk7";
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => UserProvider(),
@@ -48,9 +51,6 @@ class _MyAppState extends State<MyApp> {
       home: Provider.of<UserProvider>(context).user.access_token.isNotEmpty
           ? const BottomNavigationScreen()
           : const Login(),
-      // ? const Login()
-      // : const BottomNavigationScreen(),
-      // home: Login(),
     );
   }
 }

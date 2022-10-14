@@ -10,7 +10,10 @@ import 'package:flutter_project/features/widgets/cart_subtotal.dart';
 import 'package:flutter_project/features/widgets/custom_button.dart';
 import 'package:flutter_project/models/cart.dart';
 import 'package:flutter_project/models/product.dart';
+import 'package:flutter_project/providers/user_provider.dart';
 import 'package:flutter_project/view/Address.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -70,6 +73,7 @@ class _CartScreenState extends State<CartScreen> {
         }
       }
     }
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlueAccent,
@@ -186,7 +190,11 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
                 text: 'Jumlah barang yang dibeli (${countItem})',
-                onTap: () => navigateToAddress(sum),
+                onTap: () => user.alamat == '' || user.no_hp == ''
+                    ? Fluttertoast.showToast(
+                        msg: 'Harap isi biodata anda dengan lengkap!',
+                        toastLength: Toast.LENGTH_LONG)
+                    : navigateToAddress(sum),
                 color: Colors.blue[600],
               ),
             ),
